@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #121212;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .quiz-box {
+      width: 400px;
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    h2 {
+      margin-bottom: 15px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #555;
+    }
+    #nextBtn {
+      background: #4caf50;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="quiz-box">
+  <h2 id="question">Question here</h2>
+  <div id="answers"></div>
+  <button id="nextBtn" onclick="nextQuestion()">Next</button>
+</div>
+
+<script>
+  const quiz = [
+    {
+      q: "What does HTML stand for?",
+      options: [
+        "Hyper Text Markup Language",
+        "High Text Machine Language",
+        "Hyperlinks and Text Markup Language",
+        "Home Tool Markup Language"
+      ],
+      correct: 0
+    },
+    {
+      q: "Which language is used for styling web pages?",
+      options: ["HTML", "JQuery", "CSS", "XML"],
+      correct: 2
+    }
+  ];
+
+  let index = 0;
+  let score = 0;
+
+  const questionEl = document.getElementById("question");
+  const answersEl = document.getElementById("answers");
+  const nextBtn = document.getElementById("nextBtn");
+
+  function loadQuestion() {
+    answersEl.innerHTML = "";
+    nextBtn.style.display = "none";
+    questionEl.innerText = quiz[index].q;
+
+    quiz[index].options.forEach((opt, i) => {
+      const btn = document.createElement("button");
+      btn.innerText = opt;
+      btn.onclick = () => checkAnswer(i);
+      answersEl.appendChild(btn);
+    });
+  }
+
+  function checkAnswer(i) {
+    if (i === quiz[index].correct) score++;
+    nextBtn.style.display = "block";
+  }
+
+  function nextQuestion() {
+    index++;
+    if (index < quiz.length) {
+      loadQuestion();
+    } else {
+      questionEl.innerText = `Quiz Over! Score: ${score}/${quiz.length}`;
+      answersEl.innerHTML = "";
+      nextBtn.style.display = "none";
+    }
+  }
+
+  loadQuestion();
+</script>
+
+</body>
+</html>
